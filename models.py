@@ -1,4 +1,4 @@
-"""Models for Park Finder app."""
+"""Models for National Parks app."""
 
 from flask_sqlalchemy import SQLAlchemy
 
@@ -8,35 +8,38 @@ db = SQLAlchemy()
 class User(db.Model):
     """User"""
 
-    # ADD THE NECESSARY CODE HERE
     __tablename__ = "users" 
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_name = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
 
-    favorite_parks = db.relationship("Favorite_Park", secondary="users_parks", backref="users") 
+    parks = db.relationship("Park", secondary="users_parks", backref="user") 
+
+    def __repr__(self):
+        return f"<User {self.user_name}>"
 
 
-class Favorite_Park(db.Model):
-    """Favorite Park"""
+class Park(db.Model):
+    """Park"""
 
-    # ADD THE NECESSARY CODE HERE
-    __tablename__ = "favorite_parks"
+    __tablename__ = "parks"
 
-    park_id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
 
-    users = db.relationship("User", secondary="users_parks", backref="favorite_parks")  
+    users = db.relationship("User", secondary="users_parks", backref="parks")  
+
+    def __repr__(self):
+        return f"<Park {self.id}>"
 
 
 class UserPark(db.Model):
     """Mapping of a user to a park"""
 
-    # ADD THE NECESSARY CODE HERE
     __tablename__ = "users_parks" 
     
-    user_id = db.Column(db.Integer, db.ForeignKey("favorite_parks.id"))
-    park_id = db.Column(db.Integer, db.ForeignKey("users.id")) 
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), primary_key=True)
+    park_id = db.Column(db.Integer, db.ForeignKey("parks.id"), primary_key=True) 
 
 
 def connect_db(app):
