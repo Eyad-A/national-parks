@@ -16,3 +16,8 @@
 - Create database schema 
 - Install dependencies 
 - Create repo
+  
+**April 2, 2020**
+- Update models.py
+- Add base.html, seed.py, and app.py
+- Successfully test API calls to display park's information 

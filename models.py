@@ -11,13 +11,13 @@ class User(db.Model):
     __tablename__ = "users" 
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_name = db.Column(db.Text, nullable=False)
+    username = db.Column(db.Text, nullable=False)
     password = db.Column(db.Text, nullable=False)
 
     parks = db.relationship("Park", secondary="users_parks", backref="user") 
 
     def __repr__(self):
-        return f"<User {self.user_name}>"
+        return f"<User {self.username}>"
 
 
 class Park(db.Model):
@@ -27,7 +27,7 @@ class Park(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
 
-    users = db.relationship("User", secondary="users_parks", backref="parks")  
+    users = db.relationship("User", secondary="users_parks", backref="favorite_parks")  
 
     def __repr__(self):
         return f"<Park {self.id}>"
