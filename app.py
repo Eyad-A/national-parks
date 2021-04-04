@@ -19,15 +19,39 @@ db.create_all()
 
 app.config['SECRET_KEY'] = SECRET_KEY 
 # app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-
 debug = DebugToolbarExtension(app)
-
-url = f"{API_BASE_URL}/parks?parkCode=yose&api_key={API_KEY}" 
-response = requests.get(url)
-r = response.json() 
-
-park_name = r['data'][0]['fullName']
 
 @app.route("/")
 def show_index():
-    return render_template("base.html", park_name=park_name) 
+    return render_template("index.html") 
+
+@app.route("/search", methods=['POST']) 
+def handle_search():
+    """handle park search and show search results"""
+
+    search_query = request.form['search_query']
+    search_url = f"{API_BASE_URL}/parks?q={search_query}&limit=6&api_key={API_KEY}" 
+    search_response = requests.get(search_url) 
+    search_r = search_response.json()
+    
+    search_list = []
+    for item in search_r['data']:
+        search_list.append(item) 
+    
+    return render_template("search.html", search_list=search_list)
+
+
+@app.route("/search-by-state", methods=['POST']) 
+def handle_search_by_state():
+    """handle park search and show search results"""
+
+    state_query = request.form['state_query']
+    search_url = f"{API_BASE_URL}/parks?stateCode={state_query}&limit=6&api_key={API_KEY}" 
+    search_response = requests.get(search_url) 
+    search_r = search_response.json()
+    
+    search_list = []
+    for item in search_r['data']:
+        search_list.append(item) 
+    
+    return render_template("search.html", search_list=search_list)
