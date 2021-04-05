@@ -1,0 +1,44 @@
+{% include 'base.html' %}
+
+{% block content %}
+
+<p>Park details:</p> 
+
+<p>{{park.fullName}}</p>
+
+<p>{{park.description}}</p>
+
+<p>{{park.weatherInfo}}</p>
+
+<p>
+    {% for activity in park.activities %} 
+        {{activity.name}}, 
+    {% endfor %} 
+</p>
+
+<p>{{park.contacts.phoneNumbers[0].phoneNumber}}</p> 
+
+<p>{{park.contacts.emailAddresses[0].emailAddress}}</p> 
+
+{% if park.addresses[0].city %} 
+    <p>{{park.addresses[0].city}}, {{park.addresses[0].stateCode}}</p> 
+{% else %} 
+    <p>Location not available</p> 
+{% endif %} 
+
+<p><img class="img-thumbnail" src="{{park.images[0].url}}"></p> 
+<p><img class="img-thumbnail" src="{{park.images[1].url}}"></p> 
+
+<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+
+{% if places_list|length > 0 %} 
+{% for place in places_list %} 
+<p>{{place.title}}</p>
+<p>{{place.listingDescription}}</p> 
+<p><img class="img-thumbnail" src="{{place.images[0].url}}"></p>  
+{% endfor %} 
+{% else %} 
+<p>No places available for this park</p>
+{% endif %} 
+
+{% endblock %} 

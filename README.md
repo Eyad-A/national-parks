@@ -28,3 +28,9 @@
 - Add /search route to handle search by park name
 - Add /search-by-state route to handle search by state
 - Add search.html page to display results of search
+
+**April 5, 2020**
+- Add park-details route 
+- Add park-details.html to display park information
+- Add navigation bar
+- Add index.html

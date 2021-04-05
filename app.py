@@ -30,7 +30,7 @@ def handle_search():
     """handle park search and show search results"""
 
     search_query = request.form['search_query']
-    search_url = f"{API_BASE_URL}/parks?q={search_query}&limit=6&api_key={API_KEY}" 
+    search_url = f"{API_BASE_URL}/parks?q={search_query}&limit=30&api_key={API_KEY}" 
     search_response = requests.get(search_url) 
     search_r = search_response.json()
     
@@ -46,7 +46,7 @@ def handle_search_by_state():
     """handle park search and show search results"""
 
     state_query = request.form['state_query']
-    search_url = f"{API_BASE_URL}/parks?stateCode={state_query}&limit=6&api_key={API_KEY}" 
+    search_url = f"{API_BASE_URL}/parks?stateCode={state_query}&limit=30&api_key={API_KEY}" 
     search_response = requests.get(search_url) 
     search_r = search_response.json()
     
@@ -55,3 +55,29 @@ def handle_search_by_state():
         search_list.append(item) 
     
     return render_template("search.html", search_list=search_list)
+
+
+@app.route("/park-details", methods=['POST']) 
+def show_park():
+    """Show park details"""
+
+    # Fetch park details 
+    park_code = request.form['park_code'] 
+    park_url = f"{API_BASE_URL}/parks?parkCode={park_code}&api_key={API_KEY}"
+    park_response = requests.get(park_url)
+    park_r = park_response.json() 
+    park = park_r['data'][0]
+
+    # Fetch places associated with this park 
+    places_url = f"{API_BASE_URL}/places?parkCode={park_code}&limit=3&api_key={API_KEY}"
+    places_response = requests.get(places_url)
+    places_r = places_response.json() 
+    places_list = []
+    for place in places_r['data']:
+        places_list.append(place)  
+
+
+    return render_template("park-details.html", park=park, places_list=places_list)   
+
+    
+    
