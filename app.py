@@ -3,10 +3,7 @@ from flask_debugtoolbar import DebugToolbarExtension
 from models import db, connect_db, User, Park, UserPark 
 import requests 
 from secret import API_KEY, SECRET_KEY 
-# from natlparks import NatlParks
-
-# parks = NatlParks(API_KEY_CODE)
-CURR_USER_KEY = "curr_user"
+from forms import SignupForm, LoginForm 
 
 API_BASE_URL = "https://developer.nps.gov/api/v1"
 
@@ -18,7 +15,7 @@ connect_db(app)
 db.create_all()
 
 app.config['SECRET_KEY'] = SECRET_KEY 
-# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 debug = DebugToolbarExtension(app)
 
 @app.route("/")
@@ -80,4 +77,69 @@ def show_park():
     return render_template("park-details.html", park=park, places_list=places_list)   
 
     
+@app.route("/<username>/favorite-parks")
+def show_favorites(username):
+    """Display user's favorite parks"""
+
+    if "username" not in session or username != session['username']:
+        raise Unauthorized()
+
+    # user = User.query.get(username)
+    user = User.query.filter_by(username=username).first()
+    return render_template("favorite-parks.html", user=user)    
+
+
+@app.route('/signup', methods=['GET', 'POST']) 
+def signup():
+    """Show signup form or handle form submission"""
+
+    if "username" in session:
+        return redirect(f"/{session['username']}/favorite-parks")
+
+    form = SignupForm()
+
+    if form.validate_on_submit():
+        username = form.username.data 
+        password = form.password.data 
+        user = User.signup(username, password)
+
+        db.session.commit() 
+        session['username'] = user.username 
+
+        return redirect(f"/{user.username}/favorite-parks") 
     
+    else: 
+        return render_template("login.html", form=form) 
+
+
+@app.route('/login', methods=['GET', 'POST']) 
+def login():
+    """Display login form or handle login"""
+
+    if "username" in session: 
+        return redirect(f"/{session['username']}/favorite-parks") 
+    
+    form = LoginForm() 
+
+    if form.validate_on_submit():
+        username = form.username.data 
+        password = form.password.data 
+
+        user = User.authenticate(username, password)
+        if user:
+            session['username'] = user.username 
+            return redirect(f"/{user.username}/favorite-parks") 
+        else: 
+            form.username.errors = ["Invalid username/password"] 
+            return render_template("/login.html", form=form) 
+
+    return render_template("/login.html", form=form) 
+
+
+@app.route("/logout")
+def logout():
+    """Logout route"""
+
+    session.pop("username")
+    flash("You have been logged out")
+    return redirect("/login") 

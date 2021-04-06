@@ -1,7 +1,9 @@
 """Models for National Parks app."""
 
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
+bcrypt = Bcrypt() 
 db = SQLAlchemy()
 
 
@@ -11,10 +13,40 @@ class User(db.Model):
     __tablename__ = "users" 
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    username = db.Column(db.Text, nullable=False)
+    username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.Text, nullable=False)
 
     parks = db.relationship("Park", secondary="users_parks", backref="user") 
+
+    
+    # class methods 
+
+    @classmethod
+    def signup(cls, username, password):
+        """Signup a user and hash their password"""
+
+        hashed = bcrypt.generate_password_hash(password)
+        hashed_utf8 = hashed.decode("utf8") 
+        user = cls(
+            username = username,
+            password = hashed_utf8
+        )
+
+        db.session.add(user) 
+        return user 
+
+    
+    @classmethod
+    def authenticate(cls, username, password):
+        """validate that user exists and password is correct"""
+
+        user = User.query.filter_by(username=username).first()
+
+        if user and bcrypt.check_password_hash(user.password, password):
+            return user 
+        else: 
+            return False 
+
 
     def __repr__(self):
         return f"<User {self.username}>"

@@ -34,3 +34,12 @@
 - Add park-details.html to display park information
 - Add navigation bar
 - Add index.html
+
+**April 6, 2020**
+- Implement user registeration and authentication functionality
+- Install Flask-WTForms and add login and sign up forms 
+- Add login.html to be used for login and signup forms 
+- Add favorite-parks route and favorite-parks.html
+- Add signup route
+- Add login route
+- Add logout route 
