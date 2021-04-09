@@ -4,7 +4,16 @@
 
 <p>Park details:</p> 
 
-<p>{{park.fullName}}</p>
+<p>
+    {{park.fullName}} - 
+    {% if session['username'] %} 
+    <form method="POST" action="/{{ session['username'] }}/add-favorite/{{ park.parkCode }}">
+        <button class="btn btn-sm btn-info">
+            Add to favorites 
+        </button>
+    </form>
+    {% endif %} 
+</p>
 
 <p>{{park.description}}</p>
 

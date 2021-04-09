@@ -8,4 +8,11 @@
     Your username is {{ user.username }} 
 </p>
 
+<p>
+    Your favorite parks are: 
+    {% for park in user.favorite_parks %} 
+    <p>{{ park.park_code }} </p>
+    {% endfor %} 
+</p>
+
 {% endblock %}

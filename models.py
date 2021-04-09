@@ -57,7 +57,8 @@ class Park(db.Model):
 
     __tablename__ = "parks"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    park_code = db.Column(db.String(4), unique=True, nullable=False)
 
     users = db.relationship("User", secondary="users_parks", backref="favorite_parks")  
 

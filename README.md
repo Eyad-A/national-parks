@@ -43,3 +43,10 @@
 - Add signup route
 - Add login route
 - Add logout route 
+
+**April 9, 2020**
+- Add 'add to favorites' functionality. Parks can now be favorited by users and be added 
+  correctly in the DB.
+- Update '/<username>/add-favorite/<park_code>' route
+- Update '/<username>/favorite-parks' route
+- 'Add to favorites' button now only shows if user is logged in

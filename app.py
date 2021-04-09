@@ -73,8 +73,10 @@ def show_park():
     for place in places_r['data']:
         places_list.append(place)  
 
-
-    return render_template("park-details.html", park=park, places_list=places_list)   
+    # if "username" in session:
+    #     user = User.query.filter_by(username=session['username'])         
+    
+    return render_template("park-details.html", park=park, places_list=places_list) 
 
     
 @app.route("/<username>/favorite-parks")
@@ -82,13 +84,38 @@ def show_favorites(username):
     """Display user's favorite parks"""
 
     if "username" not in session or username != session['username']:
-        raise Unauthorized()
-
-    # user = User.query.get(username)
+        flash("You must be logged in to access this page")
+        return redirect("/login") 
+    
     user = User.query.filter_by(username=username).first()
     return render_template("favorite-parks.html", user=user)    
 
 
+@app.route("/<username>/add-favorite/<park_code>", methods=['POST'])
+def add_favorites(username, park_code):
+    """Add park to favorites"""
+    if "username" not in session or username != session['username']:
+        flash("You must be logged in to access this page")
+        return redirect("/login")
+    
+    user = User.query.filter_by(username=username).first()     
+    favorited_park = Park.query.filter_by(park_code=park_code).one_or_none()    
+
+    # if park already in the DB 
+    if favorited_park:
+        user.parks.append(favorited_park)
+        db.session.commit() 
+        flash("Existing park has been added to favorites")
+        return redirect("/<username>/favorite-parks")
+    # if the park is not already in the DB 
+    else:
+        park = Park(park_code=park_code)
+        user.parks.append(park)
+        db.session.commit() 
+        flash("Favorite park has been added") 
+        return redirect("/<username>/favorite-parks")
+    
+    
 @app.route('/signup', methods=['GET', 'POST']) 
 def signup():
     """Show signup form or handle form submission"""
