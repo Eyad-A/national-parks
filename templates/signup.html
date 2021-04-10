@@ -8,12 +8,11 @@
   <p>{{ msg }}</p>
 {% endfor %}
 
-<!-- Login form -->
+<!-- Signup form --> 
 <div class="row justify-content-md-center">
     <div class="col-md-7 col-lg-5">
-        <h2 class="join-message">Login below:</h2>
-
-        <form action="/login" method="POST" id="login_form"> 
+        <h2 class="join-message">Don't have an account? Signup below:</h2>
+        <form action="/signup" method="POST" id="signup_form">
             {{ form.hidden_tag() }}
 
             {% for field in form if field.widget.input_type != 'hidden' %}
@@ -23,9 +22,9 @@
             {{ field(placeholder=field.label.text, class="form-control") }}
             {% endfor %}
 
-            <button class="btn btn-primary btn-block btn-lg">Log in</button>
+            <button class="btn btn-primary btn-lg btn-block">Sign me up!</button>
         </form>
     </div>
 </div>
 
-{% endblock %}
+{% endblock %} 

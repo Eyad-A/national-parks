@@ -8,6 +8,7 @@
     {{park.fullName}} - 
     {% if session['username'] %} 
     <form method="POST" action="/{{ session['username'] }}/add-favorite/{{ park.parkCode }}">
+        <input type="hidden" name="main_image_url" value="{{ park.images[0].url}}"> 
         <button class="btn btn-sm btn-info">
             Add to favorites 
         </button>
@@ -40,8 +41,8 @@
 
 <p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
 
-{% if places_list|length > 0 %} 
-{% for place in places_list %} 
+{% if places_r.data|length > 0 %} 
+{% for place in places_r.data %} 
 <p>{{place.title}}</p>
 <p>{{place.listingDescription}}</p> 
 <p><img class="img-thumbnail" src="{{place.images[0].url}}"></p>  

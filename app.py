@@ -11,7 +11,7 @@ app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///national-parks'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-connect_db(app)
+connect_db(app) 
 db.create_all()
 
 app.config['SECRET_KEY'] = SECRET_KEY 
@@ -31,11 +31,7 @@ def handle_search():
     search_response = requests.get(search_url) 
     search_r = search_response.json()
     
-    search_list = []
-    for item in search_r['data']:
-        search_list.append(item) 
-    
-    return render_template("search.html", search_list=search_list)
+    return render_template("search.html", search_r=search_r) 
 
 
 @app.route("/search-by-state", methods=['POST']) 
@@ -47,11 +43,7 @@ def handle_search_by_state():
     search_response = requests.get(search_url) 
     search_r = search_response.json()
     
-    search_list = []
-    for item in search_r['data']:
-        search_list.append(item) 
-    
-    return render_template("search.html", search_list=search_list)
+    return render_template("search.html", search_r=search_r)
 
 
 @app.route("/park-details", methods=['POST']) 
@@ -68,15 +60,9 @@ def show_park():
     # Fetch places associated with this park 
     places_url = f"{API_BASE_URL}/places?parkCode={park_code}&limit=3&api_key={API_KEY}"
     places_response = requests.get(places_url)
-    places_r = places_response.json() 
-    places_list = []
-    for place in places_r['data']:
-        places_list.append(place)  
-
-    # if "username" in session:
-    #     user = User.query.filter_by(username=session['username'])         
+    places_r = places_response.json()         
     
-    return render_template("park-details.html", park=park, places_list=places_list) 
+    return render_template("park-details.html", park=park, places_r=places_r)   
 
     
 @app.route("/<username>/favorite-parks")
@@ -99,7 +85,8 @@ def add_favorites(username, park_code):
         return redirect("/login")
     
     user = User.query.filter_by(username=username).first()     
-    favorited_park = Park.query.filter_by(park_code=park_code).one_or_none()    
+    favorited_park = Park.query.filter_by(park_code=park_code).one_or_none()
+    main_image_url = request.form['main_image_url']
 
     # if park already in the DB 
     if favorited_park:
@@ -109,13 +96,13 @@ def add_favorites(username, park_code):
         return redirect("/<username>/favorite-parks")
     # if the park is not already in the DB 
     else:
-        park = Park(park_code=park_code)
+        park = Park(park_code=park_code, main_image_url=main_image_url) 
         user.parks.append(park)
         db.session.commit() 
         flash("Favorite park has been added") 
         return redirect("/<username>/favorite-parks")
-    
-    
+
+
 @app.route('/signup', methods=['GET', 'POST']) 
 def signup():
     """Show signup form or handle form submission"""
@@ -133,10 +120,11 @@ def signup():
         db.session.commit() 
         session['username'] = user.username 
 
-        return redirect(f"/{user.username}/favorite-parks") 
+        flash("You have successfully signed up") 
+        return redirect("/") 
     
     else: 
-        return render_template("login.html", form=form) 
+        return render_template("signup.html", form=form) 
 
 
 @app.route('/login', methods=['GET', 'POST']) 

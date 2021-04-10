@@ -19,14 +19,19 @@
                 <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end">
                     <li class="nav-item">
                         <a class="nav-link" href="#">About</a>
-                    </li>                    
-                    <li class="nav-item">
-                        {% if 'username' in session %}
+                    </li>
+                    {% if 'username' in session %}
+                    <li class="nav-item">                        
                         <a class="nav-link" href="/logout">Logout</a>
-                        {% else %} 
+                    </li>
+                    {% else %}
+                    <li class="nav-item">
                         <a class="nav-link" href="/login">Login</a>
-                        {% endif %} 
-                    </li>              
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/signup">Signup</a> 
+                    </li>
+                    {% endif %}                     
                 </ul>                
             </div>
         </div>

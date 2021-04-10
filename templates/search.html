@@ -2,11 +2,13 @@
 
 {% block content %}
 
+{% if search_r.data %} 
+
 <div class="container">
     <div class="row">
         <div class="col-md-9 mx-auto">
             <div class="row">
-                {% for item in search_list %}
+                {% for item in search_r.data %}
                 <div class="col-lg-4 col-md-6 mb-3">
                     <div class="">
                         <form action="/park-details" method="post"> 
@@ -25,9 +27,12 @@
         </div>
     </div>
 </div>
-</div>
 
+{% else %} 
 
+<p>No parks were found</p> 
+
+{% endif %} 
 
 
 {% endblock %}

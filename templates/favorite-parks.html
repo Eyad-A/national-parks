@@ -4,15 +4,38 @@
 
 {% block content %}
 
-<p>
-    Your username is {{ user.username }} 
-</p>
+{% for msg in get_flashed_messages() %}
+  <p>{{ msg }}</p>
+{% endfor %}
 
 <p>
-    Your favorite parks are: 
-    {% for park in user.favorite_parks %} 
-    <p>{{ park.park_code }} </p>
-    {% endfor %} 
+    Favorite parks for {{ user.username }}: 
 </p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-9 mx-auto">
+            <div class="row">
+                {% for park in user.favorite_parks %}
+                <div class="col-lg-4 col-md-6 mb-3">
+                    <div class="">
+                        <form action="/park-details" method="post"> 
+                            <input type="hidden" name="park_code" value="{{park.park_code}}">
+                            <button>
+                                <img class="img-thumbnail" src="{{ park.main_image_url }}">
+                                <div class="">
+                                    {{park.park_code}} 
+                                </div>
+                            </button>                            
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 {% endblock %}
