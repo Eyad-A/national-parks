@@ -50,3 +50,13 @@
 - Update '/<username>/add-favorite/<park_code>' route
 - Update '/<username>/favorite-parks' route
 - 'Add to favorites' button now only shows if user is logged in
+
+**April 10, 2020**
+- Add user model test cases
+- Update Park model to include park's name 
+  
+**April 11, 2020**
+- Add hero image and styling
+- Add styling for homepage
+- Add footer.html
+- Add about.html 

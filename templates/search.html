@@ -1,5 +1,7 @@
 {% include 'base.html' %}
 
+{% block title %} Search Results {% endblock %}
+
 {% block content %}
 
 {% if search_r.data %} 
@@ -34,5 +36,5 @@
 
 {% endif %} 
 
-
+{% include 'footer.html' %}
 {% endblock %}
