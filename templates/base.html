@@ -18,10 +18,10 @@
                 <!-- <ul class="navbar-nav d-flex justify-content-end"> -->
                 <ul class="navbar-nav mb-2 mb-lg-0 justify-content-end">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">About</a>
+                        <a class="nav-link" href="/about">About</a>
                     </li>
                     {% if 'username' in session %}
-                    <li class="nav-item">                        
+                    <li class="nav-item">
                         <a class="nav-link" href="/logout">Logout</a>
                     </li>
                     {% else %}
@@ -29,15 +29,25 @@
                         <a class="nav-link" href="/login">Login</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/signup">Signup</a> 
+                        <a class="nav-link" href="/signup">Signup</a>
                     </li>
-                    {% endif %}                     
-                </ul>                
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </nav>
     {% block content %}
     {% endblock %}
+
+
+    <!-- Footer -->
+    <footer class="bg-dark text-center text-lg-start">        
+        <div class="text-center p-3">
+            <a class="text-light" target="_blank" href="https://github.com/Eyad-A/national-parks">See the code!</a>
+        </div>        
+    </footer>
+    <!-- Footer -->
+
 </body>
 
 </html>

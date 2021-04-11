@@ -8,15 +8,15 @@
     <div class="row">
         <div class="col-md-9 mx-auto">
             <div class="row">
-                {% for item in search_r.data %}
+                {% for park in search_r.data %}
                 <div class="col-lg-4 col-md-6 mb-3">
                     <div class="">
                         <form action="/park-details" method="post"> 
-                            <input type="hidden" name="park_code" value="{{item.parkCode}}">
+                            <input type="hidden" name="park_code" value="{{park.parkCode}}">                            
                             <button>
-                                <img class="img-thumbnail" src="{{ item.images[0].url }}">
+                                <img class="img-thumbnail" src="{{ park.images[0].url }}">
                                 <div class="">
-                                    {{item.fullName}}
+                                    {{park.fullName}}
                                 </div>
                             </button>
                         </form>

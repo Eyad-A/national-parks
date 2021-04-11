@@ -59,6 +59,7 @@ class Park(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     park_code = db.Column(db.String(4), unique=True, nullable=False)
+    full_name = db.Column(db.Text, nullable=True) 
     main_image_url = db.Column(db.Text, nullable=True) 
 
     users = db.relationship("User", secondary="users_parks", backref="favorite_parks")  

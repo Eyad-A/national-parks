@@ -29,9 +29,9 @@ def handle_search():
     search_query = request.form['search_query']
     search_url = f"{API_BASE_URL}/parks?q={search_query}&limit=30&api_key={API_KEY}" 
     search_response = requests.get(search_url) 
-    search_r = search_response.json()
+    search_r = search_response.json()   
     
-    return render_template("search.html", search_r=search_r) 
+    return render_template("search.html", search_r=search_r)  
 
 
 @app.route("/search-by-state", methods=['POST']) 
@@ -41,9 +41,9 @@ def handle_search_by_state():
     state_query = request.form['state_query']
     search_url = f"{API_BASE_URL}/parks?stateCode={state_query}&limit=30&api_key={API_KEY}" 
     search_response = requests.get(search_url) 
-    search_r = search_response.json()
+    search_r = search_response.json()   
     
-    return render_template("search.html", search_r=search_r)
+    return render_template("search.html", search_r=search_r) 
 
 
 @app.route("/park-details", methods=['POST']) 
@@ -51,7 +51,7 @@ def show_park():
     """Show park details"""
 
     # Fetch park details 
-    park_code = request.form['park_code'] 
+    park_code = request.form['park_code']     
     park_url = f"{API_BASE_URL}/parks?parkCode={park_code}&api_key={API_KEY}"
     park_response = requests.get(park_url)
     park_r = park_response.json() 
@@ -87,6 +87,7 @@ def add_favorites(username, park_code):
     user = User.query.filter_by(username=username).first()     
     favorited_park = Park.query.filter_by(park_code=park_code).one_or_none()
     main_image_url = request.form['main_image_url']
+    full_name = request.form['full_name']
 
     # if park already in the DB 
     if favorited_park:
@@ -96,7 +97,7 @@ def add_favorites(username, park_code):
         return redirect("/<username>/favorite-parks")
     # if the park is not already in the DB 
     else:
-        park = Park(park_code=park_code, main_image_url=main_image_url) 
+        park = Park(park_code=park_code, main_image_url=main_image_url, full_name=full_name) 
         user.parks.append(park)
         db.session.commit() 
         flash("Favorite park has been added") 
@@ -158,3 +159,7 @@ def logout():
     session.pop("username")
     flash("You have been logged out")
     return redirect("/login") 
+
+@app.route("/about")
+def show_about():
+    return render_template("about.html") 
