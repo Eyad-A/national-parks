@@ -4,6 +4,7 @@ from models import db, connect_db, User, Park, UserPark
 import requests 
 from secret import API_KEY, SECRET_KEY 
 from forms import SignupForm, LoginForm 
+import os 
 
 API_BASE_URL = "https://developer.nps.gov/api/v1"
 
@@ -14,7 +15,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 connect_db(app) 
 db.create_all()
 
-app.config['SECRET_KEY'] = SECRET_KEY 
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'sekkkkkret1') 
 
 
 @app.route("/")
