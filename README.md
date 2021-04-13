@@ -66,3 +66,8 @@
 - Update nav bar to include favorite parks 
 - Add conditionals to handle parks that have missing data 
 - Bug fixes 
+
+**April 12, 2020**
+- Add styling to flash messages
+- Add test cases for parks 
+- bug fixes 

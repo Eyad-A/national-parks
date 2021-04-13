@@ -5,7 +5,7 @@
 {% block content %}
 
 {% for msg in get_flashed_messages() %}
-  <p>{{ msg }}</p>
+  <div class="alert alert-success text-center" role="alert">{{ msg }}</div>
 {% endfor %}
 
 <div class="container footer-fix">

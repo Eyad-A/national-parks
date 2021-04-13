@@ -69,8 +69,7 @@ def show_park():
 def show_favorites(username):
     """Display user's favorite parks"""
 
-    if "username" not in session or username != session['username']:
-        flash("You must be logged in to access this page")
+    if "username" not in session or username != session['username']:        
         return redirect("/login") 
     
     user = User.query.filter_by(username=username).first()
@@ -80,8 +79,7 @@ def show_favorites(username):
 @app.route("/<username>/add-favorite/<park_code>", methods=['POST'])
 def add_favorites(username, park_code):
     """Add park to favorites"""
-    if "username" not in session or username != session['username']:
-        flash("You must be logged in to access this page")
+    if "username" not in session:       
         return redirect("/login")
     
     user = User.query.filter_by(username=username).first()     
@@ -93,7 +91,7 @@ def add_favorites(username, park_code):
     if favorited_park:
         user.parks.append(favorited_park)
         db.session.commit() 
-        flash("Existing park has been added to favorites")
+        flash("Park has been added to favorites")
         return redirect("/<username>/favorite-parks")
     # if the park is not already in the DB 
     else:
@@ -144,6 +142,7 @@ def login():
         user = User.authenticate(username, password)
         if user:
             session['username'] = user.username 
+            flash("You have successfully logged in")
             return redirect(f"/{user.username}/favorite-parks") 
         else: 
             form.username.errors = ["Invalid username/password"] 

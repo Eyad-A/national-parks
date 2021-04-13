@@ -3,7 +3,9 @@
 {% block content %}
 
 <!-- Main Image -->
-
+{% for msg in get_flashed_messages() %}
+<div class="alert alert-success text-center">{{ msg }}</div>
+{% endfor %}
 
 <div class="park-details-main">
     {% if park.images[0]|length > 0 %}
@@ -121,7 +123,11 @@
         </div>
         <div class="col-lg-6">
             <p class="fw-bold">{{place.title}}</p>
+            {% if place.listingDescription|length > 0 %} 
             <p>{{place.listingDescription}}</p>
+            {% else %} 
+            <p>No description available</p> 
+            {% endif %} 
         </div>
     </div>
 </div>
