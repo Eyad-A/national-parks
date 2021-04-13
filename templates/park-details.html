@@ -2,55 +2,134 @@
 
 {% block content %}
 
-<p>Park details:</p> 
+<!-- Main Image -->
 
-<p>
-    {{park.fullName}} - 
-    {% if session['username'] %} 
-    <form method="POST" action="/{{ session['username'] }}/add-favorite/{{ park.parkCode }}">
-        <input type="hidden" name="main_image_url" value="{{ park.images[0].url}}">
-        <input type="hidden" name="full_name" value="{{ park.fullName }}"> 
-        <button class="btn btn-sm btn-info">
-            Add to favorites 
-        </button>
-    </form>
+
+<div class="park-details-main">
+    {% if park.images[0]|length > 0 %}
+    <img class="main-park-image" src="{{park.images[0].url}}">
+    {% else %}
+    <img class="main-park-image" src="/static/heroimage.jpg">
     {% endif %} 
-</p>
+    <div class="main-park-image-text">
+        <h1>{{ park.fullName }}</h1>
+    </div>
+</div>
 
-<p>{{park.description}}</p>
 
-<p>{{park.weatherInfo}}</p>
+<!-- End Main Image -->
 
-<p>
-    {% for activity in park.activities %} 
-        {{activity.name}}, 
-    {% endfor %} 
-</p>
+<div class="container-fluid bg-light mb-3 separator">
+    <div class="row">
+        <div class="col-lg-3 text-center">
+            <p class="fw-bold">Location</p>
+            {% if park.addresses[0]|length > 0 %}
+            <p>{{park.addresses[0].city}}, {{park.addresses[0].stateCode}}</p>
+            {% else %}
+            <p>Not available</p> 
+            {% endif %}
+            </p>
+        </div>
+        <div class="col-lg-3 text-center">
+            <p class="fw-bold">Email Address</p>
+            {% if park.contacts.emailAddresses[0]|length > 0 %} 
+            <p>{{park.contacts.emailAddresses[0].emailAddress}}</p>
+            {% else %}
+            <p>Not available</p> 
+            {% endif %} 
+        </div>
+        <div class="col-lg-3 text-center">
+            <p class="fw-bold">Phone Number</p>
+            {% if park.contacts.phoneNumbers[0]|length > 0 %} 
+            <p>{{park.contacts.phoneNumbers[0].phoneNumber}}</p>
+            {% else %} 
+            <p>Not available</p>
+            {% endif %} 
+        </div>
+        <div class="col-lg-3 text-center">
+            {% if session['username'] %}
+            <form method="POST" action="/{{ session['username'] }}/add-favorite/{{ park.parkCode }}">
+                {% if park.images[0]|length > 0 %}
+                <input type="hidden" name="main_image_url" value="{{ park.images[0].url}}">
+                {% else %}
+                <input type="hidden" name="main_image_url" value="/static/no-image-found.png">
+                {% endif %} 
+                <input type="hidden" name="full_name" value="{{ park.fullName }}">
+                <button class="btn btn-md btn-success mt-2">
+                    Add to favorites
+                </button>
+            </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-<p>{{park.contacts.phoneNumbers[0].phoneNumber}}</p> 
+<div class="container my-3 separator">
+    <div class="row">
+        <div class="col-lg-3">
+            <p class="display-6">Overview</p>
+        </div>
+        <div class="col-lg-9">
+            <p>{{park.description}}</p>
+        </div>
+    </div>
+    <div class="row separator">
+        <div class="col-lg-3">
+            <p class="display-6">Climate</p>
+        </div>
+        <div class="col-lg-9">  
+            <p>{{park.weatherInfo}}</p>
+        </div>
+    </div>
+</div>
 
-<p>{{park.contacts.emailAddresses[0].emailAddress}}</p> 
+<div class="container my-1 separator">
+    <div class="row">
+        <div class="col-lg-6">
+            {% if park.images[1]|length > 0 %}
+            <img class="img-fluid" src="{{park.images[1].url}}"> 
+            {% else %}                        
+            <img class="img-fluid" src="/static/no-image-found.png">
+            {% endif %} 
+        </div>
+        <div class="col-lg-6">
+            <p class="display-6">Activities</p>
+            <p>
+                {% for activity in park.activities %}
+                {{activity.name}}, 
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+</div>
 
-{% if park.addresses[0].city %} 
-    <p>{{park.addresses[0].city}}, {{park.addresses[0].stateCode}}</p> 
-{% else %} 
-    <p>Location not available</p> 
-{% endif %} 
+<hr>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-lg-12 text-center">
+            <p class="display-6">Places to see at this park</p>
+        </div>
+    </div>
+</div>
 
-<p><img class="img-thumbnail" src="{{park.images[0].url}}"></p> 
-<p><img class="img-thumbnail" src="{{park.images[1].url}}"></p> 
+{% if places_r.data|length > 0 %}
+{% for place in places_r.data %}
+<div class="container separator">
+    <div class="row">
+        <div class="col-lg-6">           
+            <img class="img-fluid" src="{{place.images[0].url}}">                        
+        </div>
+        <div class="col-lg-6">
+            <p class="fw-bold">{{place.title}}</p>
+            <p>{{place.listingDescription}}</p>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<p class="text-center fw-bold separator">No places available for this park</p>
+{% endif %}
 
-<p>~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
-
-{% if places_r.data|length > 0 %} 
-{% for place in places_r.data %} 
-<p>{{place.title}}</p>
-<p>{{place.listingDescription}}</p> 
-<p><img class="img-thumbnail" src="{{place.images[0].url}}"></p>  
-{% endfor %} 
-{% else %} 
-<p>No places available for this park</p>
-{% endif %} 
 
 {% include 'footer.html' %}
-{% endblock %} 
+{% endblock %}

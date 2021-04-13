@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}{{ user.full_name }}{% endblock %}}
+{% block title %}Favorite Parks for {{ user.full_name }}{% endblock %}}
 
 {% block content %}
 
@@ -8,32 +8,49 @@
   <p>{{ msg }}</p>
 {% endfor %}
 
-<p>
-    Favorite parks for {{ user.username }}: 
-</p>
-
-<div class="container">
-    <div class="row">
-        <div class="col-md-9 mx-auto">
-            <div class="row">
-                {% for park in user.favorite_parks %}
-                <div class="col-lg-4 col-md-6 mb-3">
-                    <div class="">
-                        <form action="/park-details" method="post"> 
-                            <input type="hidden" name="park_code" value="{{park.park_code}}">
-                            <button>
-                                <img class="img-thumbnail" src="{{ park.main_image_url }}">
-                                <div class="">                                    
-                                    {{park.full_name}}
-                                </div>
-                            </button>                            
-                        </form>
-                    </div>
-                </div>
-                {% endfor %}
+<div class="container footer-fix">
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>Favorite parks for {{ user.username }}</h2>
             </div>
         </div>
     </div>
+
+    {% if user.favorite_parks %} 
+    <!-- Start displaying favorite parks -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-md-9 mx-auto">
+                <div class="row">
+                    {% for park in user.favorite_parks %}
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="image-holder"> 
+                            <form action="/park-details" method="post"> 
+                                <input type="hidden" name="park_code" value="{{park.park_code}}">
+                                <button class="results-button">
+                                    <img class="search-image" src="{{ park.main_image_url }}">
+                                    <div class="image-text">
+                                        {{park.full_name}}
+                                    </div>
+                                </button>                            
+                            </form>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %} 
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <p>You have no favorite parks. <a href="/">Add Some!</a></p>
+            </div>
+        </div>
+    </div>
+    {% endif %} 
 </div>
 
 

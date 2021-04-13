@@ -4,13 +4,14 @@
 
 {% block content %} 
 
-{% for msg in get_flashed_messages() %}
-<p>{{ msg }}</p>
-{% endfor %}
+
 
 <!-- Hero Image -->
 
 <div class="hero-image">
+    {% for msg in get_flashed_messages() %}
+    <p>{{ msg }}</p>
+    {% endfor %}
     <div class="hero-text">
         <h4>See the country!</h4>
         <h1>Explore America's National Parks</h1>

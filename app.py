@@ -15,8 +15,8 @@ connect_db(app)
 db.create_all()
 
 app.config['SECRET_KEY'] = SECRET_KEY 
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
-debug = DebugToolbarExtension(app)
+# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+# debug = DebugToolbarExtension(app)
 
 @app.route("/")
 def show_index():
@@ -27,7 +27,7 @@ def handle_search():
     """handle park search and show search results"""
 
     search_query = request.form['search_query']
-    search_url = f"{API_BASE_URL}/parks?q={search_query}&limit=30&api_key={API_KEY}" 
+    search_url = f"{API_BASE_URL}/parks?q={search_query}&api_key={API_KEY}" 
     search_response = requests.get(search_url) 
     search_r = search_response.json()   
     
@@ -39,7 +39,7 @@ def handle_search_by_state():
     """handle park search and show search results"""
 
     state_query = request.form['state_query']
-    search_url = f"{API_BASE_URL}/parks?stateCode={state_query}&limit=30&api_key={API_KEY}" 
+    search_url = f"{API_BASE_URL}/parks?stateCode={state_query}&api_key={API_KEY}" 
     search_response = requests.get(search_url) 
     search_r = search_response.json()   
     

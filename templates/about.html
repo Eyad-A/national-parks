@@ -4,24 +4,35 @@
 
 {% block content %} 
 
-<p>
-    Welcome to the National Parks app. This is a learning project that I built 
-    for my software engineering bootcamp. It uses the <a target="_blank" href="https://www.nps.gov/subjects/developer/index.htm">National Park Service API</a>.     
-</p>
-<p>
-    Tech used for this project: 
-    <ul>
-        <li>Python</li>
-        <li>Flask</li>
-        <li>SQLAlchemy</li>
-        <li>HTML</li>
-        <li>Bootstrap</li>
-        <li>Jinja</li> 
-    </ul>
-</p>
-<p>
-    You can find the code in <a target="_blank" href="https://github.com/Eyad-A/national-parks">this Github repo</a>.
-</p>
+<div class="container footer-fix">
+    <div class="row my-5">
+        <div class="col-lg-12 text-center"> 
+            <h2>National Parks</h2>
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-lg-12">
+            <p>
+                Welcome to the National Parks app. This is a learning project that I built 
+                for my software engineering bootcamp. It uses the <a target="_blank" href="https://www.nps.gov/subjects/developer/index.htm">National Park Service API</a>.     
+            </p>
+            <p>
+                Tech used for this project: 
+                <ul>
+                    <li>Python</li>
+                    <li>Flask</li>
+                    <li>SQLAlchemy</li>
+                    <li>HTML</li>
+                    <li>Bootstrap</li>
+                    <li>Jinja</li> 
+                </ul>
+            </p>
+            <p>
+                You can find the code in <a target="_blank" href="https://github.com/Eyad-A/national-parks">this Github repo</a>.
+            </p>
+        </div>
+    </div>
+</div>
 
 {% include 'footer.html' %}
 {% endblock %}

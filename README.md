@@ -60,3 +60,9 @@
 - Add styling for homepage
 - Add footer.html
 - Add about.html 
+
+**April 12, 2020**
+- Add styling to search results, favorite parks, login, and signup pages 
+- Update nav bar to include favorite parks 
+- Add conditionals to handle parks that have missing data 
+- Bug fixes 
