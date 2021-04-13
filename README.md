@@ -1,14 +1,25 @@
 # National Parks
-## An app that allows you to search for US national parks and view information such as location and ongoing events. 
+## An app that allows you to search for US national parks and view information such as location and ongoing events.
+
+### Website link: 
+Deployed on Heroku here: 
+https://national-parks-finder.herokuapp.com/
 
 ### API used: 
 [National Park Service](https://www.nps.gov/subjects/developer/index.htm) 
+
+### Description:
+Users can search for a park or select a state to see all the available parks in that state. 
+From the search results, users can click on any park to view more details about that park. 
+Content includes images, climate information, park activities, and places within the park 
+to visit. Logged users can save parks to their favorite lists to view them later. 
 
 ### Tech used: 
 - Python
 - Flask
 - SQLAlchemy
 - Bootstrap 
+
 
 ### Change log: 
 
@@ -71,3 +82,6 @@
 - Add styling to flash messages
 - Add test cases for parks 
 - bug fixes 
+- Add Procfile and runtime
+- Add environmental varials
+- Deploy 
