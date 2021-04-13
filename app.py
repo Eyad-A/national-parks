@@ -9,7 +9,8 @@ import os
 API_BASE_URL = "https://developer.nps.gov/api/v1"
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///national-parks'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get(
+    'DATABASE_URL', 'postgres:///national-parks')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 connect_db(app) 
