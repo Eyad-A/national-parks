@@ -12,7 +12,7 @@ https://national-parks-finder.herokuapp.com/
 Users can search for a park or select a state to see all the available parks in that state. 
 From the search results, users can click on any park to view more details about that park. 
 Content includes images, climate information, park activities, and places within the park 
-to visit. Logged users can save parks to their favorite lists to view them later. 
+to visit. Logged in users can save parks to their favorite lists to view them later. 
 
 ### Tech used: 
 - Python
@@ -78,10 +78,10 @@ to visit. Logged users can save parks to their favorite lists to view them later
 - Add conditionals to handle parks that have missing data 
 - Bug fixes 
 
-**April 12, 2020**
+**April 13, 2020**
 - Add styling to flash messages
 - Add test cases for parks 
 - bug fixes 
 - Add Procfile and runtime
-- Add environmental varials
+- Add environmental variables 
 - Deploy 
